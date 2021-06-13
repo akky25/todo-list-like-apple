@@ -1,33 +1,34 @@
 import { FC } from "react";
 import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
+import { Add } from "@material-ui/icons";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     menuButton: {
-      marginRight: theme.spacing(2),
+      marginLeft: "auto",
+      padding: 0,
+      color: theme.palette.grey[500],
     },
   })
 );
 
 type Props = {
-  handleDrawerToggle?: () => void;
+  onClick?: () => void;
 };
 
 const TopIconButton: FC<Props> = (props) => {
   const classes = useStyles();
-  const { handleDrawerToggle } = props;
+  const { onClick } = props;
 
   return (
     <IconButton
-      color="inherit"
       aria-label="open drawer"
       edge="start"
-      onClick={handleDrawerToggle}
+      onClick={onClick}
       className={classes.menuButton}
     >
-      <MenuIcon />
+      <Add />
     </IconButton>
   );
 };

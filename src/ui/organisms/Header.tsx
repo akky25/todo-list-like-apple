@@ -2,29 +2,32 @@ import React, { FC } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import { blue } from "@material-ui/core/colors";
+import { blue, orange } from "@material-ui/core/colors";
+import { Hidden } from "@material-ui/core";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import { ArrowBackIos, Add } from "@material-ui/icons";
-import MenuIcon from "@material-ui/icons/Menu";
 
 import IconButtonTemplate from "ui/atom/IconButtonTemplate";
-import { Hidden } from "@material-ui/core";
-// import { relative } from "path/posix";
+import ListMenu from "ui/Molecules/ListMenu";
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles((theme: Theme) =>
+type StyleProps = {
+  headColor: string;
+};
+
+const useStyles = makeStyles<Theme, StyleProps>((theme: Theme) =>
   createStyles({
     title: {
       flexGrow: 1,
-      color: blue.A400,
+      color: (props) => props.headColor,
     },
     listsNumber: {
       [theme.breakpoints.down("xs")]: {
         display: "none",
       },
-      color: blue.A400,
+      color: (props) => props.headColor,
     },
     appbar: {
       background: theme.palette.background.default,
@@ -34,16 +37,16 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     iconbar: {
-      // height: 40,
       minHeight: 40,
+      height: 40,
       paddingRight: 5,
+      marginTop: 10,
     },
     arrowBackIos: {
-      // flexGrow: 1,
       marginRight: "auto",
+      color: blue.A400,
     },
     addItem: {
-      // flexGrow: 1,
       marginLeft: "auto",
       color: theme.palette.grey[500],
     },
@@ -58,24 +61,28 @@ type Props = {
 };
 
 const Header: FC<Props> = (props) => {
-  const classes = useStyles();
+  const classes = useStyles({ headColor: orange[500] });
   const { handleDrawerToggle } = props;
 
   return (
     <AppBar position="fixed" className={classes.appbar}>
+      {/* SPサイズ */}
       <Hidden mdUp>
-        <Toolbar className={classes.iconbar}>
+        {/* <Toolbar className={classes.iconbar}> */}
+        <Toolbar classes={{ regular: classes.iconbar }}>
           <Box className={classes.arrowBackIos}>
             <IconButtonTemplate handleDrawerToggle={handleDrawerToggle}>
               <ArrowBackIos />
               <Typography>リスト</Typography>
             </IconButtonTemplate>
           </Box>
-          <IconButtonTemplate handleDrawerToggle={handleDrawerToggle}>
+          {/* <IconButtonTemplate handleDrawerToggle={handleDrawerToggle}>
             <MenuIcon />
-          </IconButtonTemplate>
+          </IconButtonTemplate> */}
+          <ListMenu />
         </Toolbar>
       </Hidden>
+      {/* PCサイズ */}
       <Hidden smDown>
         <Toolbar className={classes.iconbar}>
           <Box className={classes.addItem}>
@@ -86,10 +93,10 @@ const Header: FC<Props> = (props) => {
         </Toolbar>
       </Hidden>
       <Toolbar>
-        <Typography variant="h4" noWrap className={classes.title}>
+        <Typography variant="h3" noWrap className={classes.title}>
           <Box fontWeight="fontWeightBold">Webアプリ製作</Box>
         </Typography>
-        <Typography variant="h4" noWrap className={classes.listsNumber}>
+        <Typography variant="h3" noWrap className={classes.listsNumber}>
           <Box fontWeight="fontWeightBold">5</Box>
         </Typography>
       </Toolbar>
